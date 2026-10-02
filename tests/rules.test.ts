@@ -78,3 +78,32 @@ describe("password hashing", () => {
     expect(await verifyPassword("secret123", hash)).toBe(false);
   });
 });
+
+describe("translations", () => {
+  const leaves = (tree: object, prefix = ""): string[] =>
+    Object.entries(tree).flatMap(([k, v]) => (typeof v === "string" ? [`${prefix}${k}`] : leaves(v, `${prefix}${k}.`)));
+
+  test("en.json and km.json have exactly the same keys, none empty", async () => {
+    const en = (await import("@/messages/en.json")).default;
+    const km = (await import("@/messages/km.json")).default;
+    expect(leaves(km).sort()).toEqual(leaves(en).sort());
+    for (const file of [en, km]) {
+      expect(JSON.stringify(file)).not.toContain('""');
+    }
+  });
+
+  test("translate() reads nested keys and falls back to English", async () => {
+    const { translate } = await import("@/lib/i18n/dictionaries");
+    expect(translate("en", "nav.group.admin")).toBe("Administration");
+    expect(translate("km", "navbar.logout")).toBe("ចាកចេញ");
+  });
+});
+
+describe("search", () => {
+  test("escapeLike makes LIKE wildcards literal", async () => {
+    const { escapeLike } = await import("@/db");
+    expect(escapeLike("grade")).toBe("grade");
+    expect(escapeLike("50%_off")).toBe(String.raw`50\%\_off`);
+    expect(escapeLike(String.raw`a\b`)).toBe(String.raw`a\\b`);
+  });
+});

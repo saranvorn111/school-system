@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 // Optimistic check only: "is there a session cookie at all?".
 // Real session validation and permission checks happen in every API route
 // (lib/api/handler.ts → lib/services/*) — never rely on this alone.
+// "/" is the public landing page; everything else needs a session.
 const PUBLIC_PAGES = ["/login"];
 
 export function proxy(request: NextRequest) {
@@ -12,10 +13,10 @@ export function proxy(request: NextRequest) {
   if (pathname.startsWith("/api/")) return NextResponse.next();
 
   const hasSession = request.cookies.has("sid");
-  const isPublic = PUBLIC_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  const isPublic = pathname === "/" || PUBLIC_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   if (!hasSession && !isPublic) {
     const url = new URL("/login", request.url);
-    if (pathname !== "/") url.searchParams.set("next", pathname + search);
+    url.searchParams.set("next", pathname + search);
     return NextResponse.redirect(url);
   }
   return NextResponse.next();

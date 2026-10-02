@@ -5,7 +5,6 @@ import { isDuplicateKeyError } from "@/db";
 import { currentUserOrThrow } from "@/lib/auth/authz";
 import type { CurrentUser } from "@/lib/auth/current-user";
 import { ApiError, badRequest, forbidden, invalid, notFound } from "./errors";
-
 type Params = Record<string, string | string[] | undefined>;
 type RouteContext = { params: Promise<Params> };
 

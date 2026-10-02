@@ -1,12 +1,13 @@
 "use client";
 
-import { useT } from "@/components/i18n-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { DialogActions, FormDialog } from "@/components/form-dialog";
 import { SelectField, TextareaField, TextField } from "@/components/form-fields";
+import { useT } from "@/components/i18n-provider";
 import { EmptyState, PageHeader, QueryView, Section } from "@/components/page";
+import { RowActions } from "@/components/row-actions";
 import { ToneBadge } from "@/components/status-badges";
 import { FieldGroup } from "@/components/ui/field";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -47,7 +48,8 @@ export function CoursesView() {
                     <TableHead className="pl-4">Code</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Credits</TableHead>
-                    <TableHead className="pr-4">Department</TableHead>
+                    <TableHead>Department</TableHead>
+                    <TableHead className="pr-4" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -60,7 +62,12 @@ export function CoursesView() {
                       </TableCell>
                       <TableCell className="font-medium">{c.title}</TableCell>
                       <TableCell className="tabular-nums">{c.credits}</TableCell>
-                      <TableCell className="pr-4 text-muted-foreground">{c.department ?? "—"}</TableCell>
+                      <TableCell className="text-muted-foreground">{c.department ?? "—"}</TableCell>
+                      <TableCell className="pr-4">
+                        <RowActions name={`${c.code} ${c.title}`} editTitle="Edit course" deletePath={`/api/courses/${c.id}`}>
+                          {(close) => <CourseForm departments={departments.data ?? []} initial={c} onDone={close} />}
+                        </RowActions>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -73,14 +80,26 @@ export function CoursesView() {
   );
 }
 
-function CourseForm({ departments, onDone }: { departments: Departments; onDone: () => void }) {
+/** Creates a course, or edits `initial` when given. */
+function CourseForm({ departments, initial, onDone }: { departments: Departments; initial?: Courses[number]; onDone: () => void }) {
   const form = useForm<CourseInput>({
     resolver: zodResolver(courseSchema),
-    defaultValues: { code: "", title: "", credits: "3", departmentId: "", description: "" },
+    defaultValues: {
+      code: initial?.code ?? "",
+      title: initial?.title ?? "",
+      credits: String(initial?.credits ?? 3),
+      departmentId: initial?.departmentId ?? "",
+      description: initial?.description ?? "",
+    },
   });
-  const create = useApiMutation<CourseInput>("/api/courses", { form, success: "Course added.", onSuccess: onDone });
+  const mutation = useApiMutation<CourseInput>(initial ? `/api/courses/${initial.id}` : "/api/courses", {
+    method: initial ? "PATCH" : "POST",
+    form,
+    success: initial ? "Course saved." : "Course added.",
+    onSuccess: onDone,
+  });
   return (
-    <form onSubmit={form.handleSubmit((v) => create.mutate(v))} noValidate>
+    <form onSubmit={form.handleSubmit((v) => mutation.mutate(v))} noValidate>
       <FieldGroup>
         <div className="grid grid-cols-2 gap-3">
           <TextField form={form} name="code" label="Code" placeholder="CS201" autoFocus />
@@ -95,7 +114,7 @@ function CourseForm({ departments, onDone }: { departments: Departments; onDone:
           options={departments.map((d) => ({ value: d.id, label: d.name }))}
         />
         <TextareaField form={form} name="description" label="Description" rows={3} />
-        <DialogActions onCancel={onDone} pending={create.isPending} submitLabel="Add course" />
+        <DialogActions onCancel={onDone} pending={mutation.isPending} submitLabel={initial ? "Save changes" : "Add course"} />
       </FieldGroup>
     </form>
   );

@@ -16,6 +16,7 @@ export function FormDialog({
   description,
   children,
   icon = <PlusIcon />,
+  iconOnly = false,
   ...button
 }: {
   label: string;
@@ -23,14 +24,16 @@ export function FormDialog({
   description?: ReactNode;
   children: (close: () => void) => ReactNode;
   icon?: ReactNode;
+  /** Show only the icon (for table rows); the label becomes the accessible name. */
+  iconOnly?: boolean;
 } & Omit<ComponentProps<typeof Button>, "children" | "title">) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button {...button}>
+        <Button aria-label={iconOnly ? label : undefined} title={iconOnly ? label : undefined} {...button}>
           {icon}
-          {label}
+          {!iconOnly && label}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">

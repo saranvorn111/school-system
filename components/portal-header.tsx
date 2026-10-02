@@ -1,9 +1,8 @@
 "use client";
 
-import { LayoutDashboardIcon, LogOutIcon, MoonIcon, SunIcon, UserIcon } from "lucide-react";
+import { LayoutDashboardIcon, LogOutIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useTheme } from "next-themes";
 import { Fragment } from "react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -32,6 +31,7 @@ import type { Me } from "@/lib/services/auth";
 import { useI18n } from "./i18n-provider";
 import { LanguageMenu } from "./language-menu";
 import { NotificationBell } from "./notification-bell";
+import { ThemeToggle } from "./theme-toggle";
 
 const CRUMBS: Record<string, TranslationKey> = {
   admin: "crumb.admin",
@@ -69,7 +69,6 @@ const initials = (name: string) =>
 export function PortalHeader({ me }: { me: Me }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { resolvedTheme, setTheme } = useTheme();
   const { t } = useI18n();
 
   const segments = pathname.split("/").filter(Boolean);
@@ -116,11 +115,7 @@ export function PortalHeader({ me }: { me: Me }) {
       <NotificationBell />
       <LanguageMenu />
 
-      {/* Theme */}
-      <Button variant="ghost" size="icon" aria-label={t("navbar.theme")} onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>
-        <SunIcon className="scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90" />
-        <MoonIcon className="absolute scale-0 rotate-90 transition-transform dark:scale-100 dark:rotate-0" />
-      </Button>
+      <ThemeToggle />
 
       {/* Profile */}
       <DropdownMenu>

@@ -88,13 +88,14 @@ export function AppSidebar({ me, portal }: { me: Me; portal: Portal }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild className="h-14">
               <Link href={me.home}>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <GraduationCapIcon className="size-4" />
+                {/* Shrinks back to 8 when the sidebar is collapsed to icons. */}
+                <div className="flex aspect-square size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:rounded-lg">
+                  <GraduationCapIcon className="size-6 group-data-[collapsible=icon]:size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{t("app.name")}</span>
+                  <span className="truncate text-base font-semibold">{t("app.name")}</span>
                   <span className="truncate text-xs text-muted-foreground">{t(nav.portal)}</span>
                 </div>
               </Link>

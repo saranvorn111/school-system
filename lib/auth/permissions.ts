@@ -19,6 +19,8 @@ export const PERMISSIONS = {
 
   "course:read": "View the course catalog",
   "course:create": "Create courses",
+  "course:update": "Edit courses",
+  "course:delete": "Delete courses that are not used by any section",
 
   "section:read": "View class sections",
   "section:create": "Create class sections",

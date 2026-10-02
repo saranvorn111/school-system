@@ -28,6 +28,7 @@ The admin login comes from `.env` (`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`). 
 
 ```
 app/
+  page.tsx             public landing page (/)
   api/                 REST API — the only way the browser reads or changes data
   admin/ teacher/ student/ account/ login/
     page.tsx           thin server wrapper (title, route params)
@@ -44,6 +45,7 @@ lib/
   validation/          Zod schemas shared by the browser forms and the API
   auth/                sessions, password hashing, permission matrix, authorize()
 db/                    Drizzle schema, migrations, seed
+messages/              en.json and km.json — every translated text
 ```
 
 A request flows **view → `/api/*` route → service → database**:
@@ -74,6 +76,7 @@ Never rely on the UI hiding a button: every service calls `authorize()` / `autho
 | PUT / POST / POST | `/api/users/:id/status` · `/reset-password` · `/unlock` | admin |
 | GET, POST | `/api/departments` · `/api/programs` · `/api/academic-years` · `/api/courses` | admin |
 | GET, POST | `/api/terms` · PUT `/api/terms/:id/current` | list: everyone, change: admin |
+| PATCH, DELETE | `/api/departments/:id` · `/api/programs/:id` · `/api/academic-years/:id` · `/api/terms/:id` · `/api/courses/:id` | admin. DELETE answers 409 while other records still use the item |
 | GET | `/api/teachers` | admin |
 | GET, POST | `/api/sections?termId=` | admin (all), teacher (own classes) |
 | GET | `/api/sections/:id` | admin, assigned teacher |
@@ -91,6 +94,6 @@ Never rely on the UI hiding a button: every service calls `authorize()` / `autho
 
 Notifications are created when grades are submitted, sent back, approved or published, when a student is enrolled, dropped or marked absent/late, and when a teacher is assigned. The navbar bell checks for new ones every 30 seconds.
 
-The interface language (English / Khmer) is chosen in the navbar; all text is in `lib/i18n/dictionaries.ts`.
+The interface language (English / Khmer) is chosen in the navbar; all text is in `messages/en.json` and `messages/km.json` (loaded by `lib/i18n/dictionaries.ts`).
 
-Grade workflow: `draft → submitted → approved → published` (reject returns to `draft` with a note). Students only ever see published grades.
+Grade workflow: `draft → submitted → approved → published` (reject returns to `draft` with a note). An admin can also reopen published grades for correction (`POST /api/sections/:id/grades/reopen` with a note), which hides them from students until they are published again. Students only ever see published grades.

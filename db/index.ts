@@ -20,6 +20,14 @@ export const db = drizzle(pool, { schema, mode: "default" });
 export type Db = typeof db;
 export type Tx = Parameters<Parameters<Db["transaction"]>[0]>[0];
 
+/**
+ * In SQL LIKE patterns `%` and `_` are wildcards. Escape them (and the escape
+ * character itself) so text typed into a search box is matched literally.
+ */
+export function escapeLike(text: string) {
+  return text.replace(/[\\%_]/g, (ch) => `\\${ch}`);
+}
+
 /** True when a MySQL unique index rejected the write. */
 export function isDuplicateKeyError(error: unknown): boolean {
   let e: unknown = error;

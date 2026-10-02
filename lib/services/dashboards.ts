@@ -1,6 +1,6 @@
 import "server-only";
 import { and, desc, eq, inArray, like, sql } from "drizzle-orm";
-import { db } from "@/db";
+import { db, escapeLike } from "@/db";
 import { attendanceSessions, auditLogs, loginHistory, sections, students, teachers, users } from "@/db/schema";
 import { forbidden } from "@/lib/api/errors";
 import { authorize } from "@/lib/auth/authz";
@@ -71,7 +71,7 @@ export async function auditLog(user: CurrentUser, query: { action?: string; enti
     })
     .from(auditLogs)
     .leftJoin(users, eq(users.id, auditLogs.actorUserId))
-    .where(and(query.action ? like(auditLogs.action, `${query.action}%`) : undefined, query.entity ? eq(auditLogs.entityType, query.entity) : undefined))
+    .where(and(query.action ? like(auditLogs.action, `%${escapeLike(query.action)}%`) : undefined, query.entity ? eq(auditLogs.entityType, query.entity) : undefined))
     .orderBy(desc(auditLogs.id))
     .limit(AUDIT_PAGE_SIZE + 1)
     .offset((query.page - 1) * AUDIT_PAGE_SIZE);

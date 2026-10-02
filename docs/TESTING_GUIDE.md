@@ -658,4 +658,32 @@ As admin, open **Reports**.
 1. Click the language button in the navbar and choose **ខ្មែរ**. The menu, breadcrumbs, page titles and the login page switch to Khmer. Refresh: the choice is kept (cookie `locale`).
 2. Click the sun/moon button to switch between light and dark.
 
-**Files:** `lib/i18n/dictionaries.ts` (all text), `components/i18n-provider.tsx`, `components/language-menu.tsx`, `components/portal-header.tsx`.
+**Files:** `messages/en.json` and `messages/km.json` (all text), `lib/i18n/dictionaries.ts` (loader), `components/i18n-provider.tsx`, `components/language-menu.tsx`, `components/portal-header.tsx`.
+
+## Test O — Edit and delete setup data
+
+As admin, on **Departments & programs**, **Years & terms** and **Courses**, every row has a pencil (edit) and a bin (delete).
+
+1. Click the pencil on a department. The popup opens with the current values. Change the name and click **Save changes**. The list updates and a toast confirms it.
+2. Change a code to one that already exists. **Expected:** "A department with that code already exists."
+3. Click the bin on a department that has programs, teachers or courses. **Expected:** after confirming, a toast says it is still used and lists what uses it. Nothing is deleted.
+4. Add a new department, then delete it. **Expected:** it disappears from the list.
+5. The same rules apply to the others: a program with students, a course or term with sections, and an academic year with terms cannot be deleted.
+6. Open **Audit log** and filter `updated` or `deleted`. Each change shows the values before and after.
+7. As a teacher or student, the API refuses both actions with 403.
+
+**Files:** `components/row-actions.tsx` (the two buttons), `lib/services/academics.ts` (`updateRecord()`, `deleteRecord()` and the "still in use" check), `app/api/*/[id]/route.ts` (PATCH and DELETE).
+
+## Test P — Reopen published grades
+
+Published grades are locked. If a score is wrong, the admin reopens them:
+
+1. As admin, open a section whose status is **Grades: Published**.
+2. In **Grade review**, type a reason under **Reopen for correction** and click **Reopen grades**, then confirm.
+
+**Expected:** the status becomes **Draft**. The teacher gets a notification with the reason and can edit scores again. Students get a notification and no longer see that grade (their GPA is recalculated without it).
+3. The teacher corrects the score, saves and submits. The admin approves and publishes as usual, and the grade is visible to students again.
+
+The button is disabled until a reason is typed. A teacher calling the API directly gets 403, and the action is recorded in the audit log as `grade.reopened` with the reason.
+
+**Files:** `lib/services/grades.ts` → `reopenGrades()`, `components/grade-review.tsx`, `app/api/sections/[id]/grades/[action]/route.ts`.

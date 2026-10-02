@@ -34,10 +34,12 @@ export function AuditView() {
           className="flex flex-wrap gap-2 px-4 pb-4"
           onSubmit={(e) => {
             e.preventDefault();
-            setFilters((f) => ({ ...f, action: String(new FormData(e.currentTarget).get("action") ?? ""), page: 1 }));
+            // Read the input now: inside the state updater below, e.currentTarget is already null.
+            const action = String(new FormData(e.currentTarget).get("action") ?? "").trim();
+            setFilters((f) => ({ ...f, action, page: 1 }));
           }}
         >
-          <Input name="action" defaultValue={filters.action} placeholder="Action, e.g. grade. or user.created" className="max-w-xs" />
+          <Input name="action" defaultValue={filters.action} placeholder="Action, e.g. grade or logout" className="max-w-xs" />
           <Select value={filters.entity || "all"} onValueChange={(v) => setFilters((f) => ({ ...f, entity: v === "all" ? "" : v, page: 1 }))}>
             <SelectTrigger className="w-48">
               <SelectValue />
@@ -93,7 +95,7 @@ export function AuditView() {
                           {r.entityType}
                           {r.entityId && `#${r.entityId}`}
                         </TableCell>
-                        <TableCell className="max-w-md pr-4 font-mono text-xs break-all whitespace-normal">
+                        <TableCell className="min-w-72 max-w-md pr-4 font-mono text-xs break-all whitespace-normal">
                           {summarize(r.before) && <p className="text-destructive">− {summarize(r.before)}</p>}
                           {summarize(r.after) && <p className="text-emerald-700 dark:text-emerald-400">+ {summarize(r.after)}</p>}
                         </TableCell>

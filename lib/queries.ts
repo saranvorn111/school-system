@@ -31,6 +31,7 @@ export async function listTerms() {
   return db
     .select({
       id: terms.id,
+      academicYearId: terms.academicYearId,
       name: terms.name,
       yearName: academicYears.name,
       startDate: terms.startDate,
@@ -126,6 +127,7 @@ export async function listPrograms() {
       code: programs.code,
       name: programs.name,
       degreeLevel: programs.degreeLevel,
+      departmentId: programs.departmentId,
       departmentName: departments.name,
     })
     .from(programs)

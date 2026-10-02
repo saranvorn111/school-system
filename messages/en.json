@@ -1,0 +1,259 @@
+{
+  "app": {
+    "name": "School System"
+  },
+  "portal": {
+    "admin": "Admin portal",
+    "teacher": "Teacher portal",
+    "student": "Student portal"
+  },
+  "nav": {
+    "group": {
+      "admin": "Administration",
+      "teacher": "Teaching",
+      "student": "My studies"
+    },
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "organization": "Departments & programs",
+    "academics": "Years & terms",
+    "courses": "Courses",
+    "sections": "Sections & enrollment",
+    "gradeApprovals": "Grade approvals",
+    "audit": "Audit log",
+    "reports": "Reports",
+    "myClasses": "My classes",
+    "timetable": "Timetable",
+    "attendance": "Attendance",
+    "grades": "Grades"
+  },
+  "crumb": {
+    "admin": "Admin",
+    "teacher": "Teacher",
+    "student": "Student",
+    "new": "New",
+    "sections": "Sections"
+  },
+  "navbar": {
+    "account": "My account",
+    "logout": "Log out",
+    "logoutFailed": "Couldn't log out. Please try again.",
+    "theme": "Switch between light and dark theme",
+    "language": "Language",
+    "openMenu": "Open account menu",
+    "notifications": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "You have no notifications."
+  },
+  "banner": {
+    "tempPassword": "You are using a temporary password.",
+    "changeNow": "Change it now"
+  },
+  "login": {
+    "title": "Welcome back",
+    "subtitle": "Log in with your email, student ID or employee ID.",
+    "identifier": "Email or ID",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Logging in…",
+    "networkError": "Couldn't reach the server. Please try again.",
+    "hero": "One place to run your school.",
+    "feature1": {
+      "title": "Attendance in seconds",
+      "text": "Teachers mark a whole class with one tap."
+    },
+    "feature2": {
+      "title": "Grades with approval",
+      "text": "Draft, review, approve, then publish to students."
+    },
+    "feature3": {
+      "title": "Secure by design",
+      "text": "Every action is permission-checked and audited."
+    },
+    "audience": "Students · Teachers · Administrators"
+  },
+  "page": {
+    "adminDashboard": {
+      "title": "Admin dashboard"
+    },
+    "users": {
+      "title": "Users",
+      "description": "Admins, teachers and students who can sign in."
+    },
+    "newUser": {
+      "title": "New user",
+      "description": "A temporary password is generated. The user must change it at first login."
+    },
+    "organization": {
+      "title": "Departments & programs",
+      "description": "The academic structure students and teachers belong to."
+    },
+    "academics": {
+      "title": "Academic years & terms",
+      "description": "The current term is used for dashboards, timetables and new sections."
+    },
+    "courses": {
+      "title": "Courses",
+      "description": "The course catalog. Sections are created per term from these courses."
+    },
+    "sections": {
+      "title": "Sections & enrollment",
+      "description": "Class sections per term: schedule, teacher, room and students."
+    },
+    "gradeApprovals": {
+      "title": "Grade approvals",
+      "description": "Submitted grades wait here for approval, then for publishing to students."
+    },
+    "audit": {
+      "title": "Audit log",
+      "description": "Every sensitive change: who, what, when, and the values before and after."
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Enrollment, attendance and grade results per section, with students who need attention."
+    },
+    "teacherDashboard": {
+      "title": "Teacher dashboard"
+    },
+    "myClasses": {
+      "title": "My classes",
+      "description": "Sections you teach. Open one to take attendance or enter grades."
+    },
+    "studentDashboard": {
+      "title": "My dashboard"
+    },
+    "timetable": {
+      "title": "My timetable"
+    },
+    "myAttendance": {
+      "title": "My attendance",
+      "description": "Present and late both count as attended."
+    },
+    "myGrades": {
+      "title": "My grades",
+      "description": "Only grades that have been approved and published appear here."
+    },
+    "account": {
+      "title": "My account",
+      "description": "Your profile, password and signed-in devices."
+    }
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "portals": "Portals",
+      "workflow": "How it works",
+      "security": "Security",
+      "login": "Log in",
+      "dashboard": "Open dashboard"
+    },
+    "hero": {
+      "badge": "University & school management",
+      "title": "Run your whole school from one place",
+      "subtitle": "Students, teachers, classes, attendance and grades in a single secure system — with the right access for every role.",
+      "cta": "Log in to get started",
+      "secondary": "See the features",
+      "preview": "Preview of the admin dashboard"
+    },
+    "stats": {
+      "portals": "role-based portals",
+      "permissions": "fine-grained permissions",
+      "languages": "languages: English and Khmer",
+      "steps": "step grade approval"
+    },
+    "features": {
+      "eyebrow": "Features",
+      "title": "Everything the academic office needs",
+      "subtitle": "Built around the daily work of administrators, teachers and students.",
+      "users": {
+        "title": "Users and roles",
+        "text": "Create admin, teacher and student accounts with temporary passwords, lockout protection and device sign-out."
+      },
+      "academics": {
+        "title": "Academic structure",
+        "text": "Departments, programs, academic years, terms and a course catalog, set up in minutes."
+      },
+      "timetable": {
+        "title": "Sections and timetable",
+        "text": "Schedule classes with automatic clash checks for teachers, rooms and students, and seat limits."
+      },
+      "attendance": {
+        "title": "Attendance",
+        "text": "Teachers mark a whole class in seconds. Students are told when they are marked absent or late."
+      },
+      "grades": {
+        "title": "Grades and GPA",
+        "text": "Enter scores, see letter grades instantly, and publish through a review workflow. GPA is calculated automatically."
+      },
+      "reports": {
+        "title": "Reports and export",
+        "text": "Seats, attendance and results per section, students who need attention, and CSV export."
+      }
+    },
+    "portals": {
+      "eyebrow": "Portals",
+      "title": "One system, three tailored portals",
+      "subtitle": "Everyone sees exactly what they need — and nothing they shouldn't.",
+      "admin": {
+        "title": "Administrators",
+        "item1": "Manage users, courses and sections",
+        "item2": "Enroll students and assign teachers",
+        "item3": "Approve and publish grades",
+        "item4": "Reports and a full audit log"
+      },
+      "teacher": {
+        "title": "Teachers",
+        "item1": "Today's classes at a glance",
+        "item2": "Take attendance in one tap",
+        "item3": "Enter and submit grades",
+        "item4": "Only their own classes"
+      },
+      "student": {
+        "title": "Students",
+        "item1": "Weekly timetable",
+        "item2": "Attendance record per course",
+        "item3": "Published grades and GPA",
+        "item4": "Notifications for what matters"
+      }
+    },
+    "workflow": {
+      "eyebrow": "How it works",
+      "title": "Grades are reviewed before students see them",
+      "subtitle": "Every step is recorded, and scores are locked while they are under review.",
+      "step1": { "title": "Draft", "text": "The teacher enters and saves scores." },
+      "step2": { "title": "Submitted", "text": "Scores are locked and sent for review." },
+      "step3": { "title": "Approved", "text": "A reviewer approves, or sends them back with a note." },
+      "step4": { "title": "Published", "text": "Students see their grade and updated GPA." }
+    },
+    "security": {
+      "eyebrow": "Security",
+      "title": "Secure by design",
+      "subtitle": "Access is checked on the server for every request, never only in the browser.",
+      "permissions": {
+        "title": "Action-based permissions",
+        "text": "Each action is a permission with a scope: everything, assigned classes, or only your own records."
+      },
+      "audit": {
+        "title": "Audit log",
+        "text": "Every sensitive change records who did it, when, and the values before and after."
+      },
+      "accounts": {
+        "title": "Protected accounts",
+        "text": "Hashed passwords, lockout after repeated failures, and sign-out of all devices."
+      },
+      "api": {
+        "title": "API first",
+        "text": "A REST API behind every screen, ready for a mobile app or other systems."
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Log in with the account your administrator gave you.",
+      "button": "Log in"
+    },
+    "footer": {
+      "tagline": "University and school management system.",
+      "rights": "All rights reserved."
+    }
+  }
+}

@@ -1,12 +1,13 @@
 "use client";
 
-import { useT } from "@/components/i18n-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { DialogActions, FormDialog } from "@/components/form-dialog";
 import { SelectField, TextField } from "@/components/form-fields";
+import { useT } from "@/components/i18n-provider";
 import { EmptyState, PageHeader, QueryView, Section } from "@/components/page";
+import { RowActions } from "@/components/row-actions";
 import { ToneBadge } from "@/components/status-badges";
 import { FieldGroup } from "@/components/ui/field";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -47,7 +48,8 @@ export function OrganizationView() {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="pl-4">Code</TableHead>
-                      <TableHead className="pr-4">Name</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead className="pr-4" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -58,7 +60,12 @@ export function OrganizationView() {
                             {d.code}
                           </ToneBadge>
                         </TableCell>
-                        <TableCell className="pr-4 font-medium">{d.name}</TableCell>
+                        <TableCell className="font-medium">{d.name}</TableCell>
+                        <TableCell className="pr-4">
+                          <RowActions name={d.name} editTitle="Edit department" deletePath={`/api/departments/${d.id}`}>
+                            {(close) => <DepartmentForm initial={d} onDone={close} />}
+                          </RowActions>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -94,7 +101,8 @@ export function OrganizationView() {
                     <TableRow>
                       <TableHead className="pl-4">Code</TableHead>
                       <TableHead>Name</TableHead>
-                      <TableHead className="pr-4">Department</TableHead>
+                      <TableHead>Department</TableHead>
+                      <TableHead className="pr-4" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -109,7 +117,12 @@ export function OrganizationView() {
                           <p className="font-medium">{p.name}</p>
                           <p className="text-xs capitalize text-muted-foreground">{p.degreeLevel}</p>
                         </TableCell>
-                        <TableCell className="pr-4 text-muted-foreground">{p.departmentName}</TableCell>
+                        <TableCell className="text-muted-foreground">{p.departmentName}</TableCell>
+                        <TableCell className="pr-4">
+                          <RowActions name={p.name} editTitle="Edit program" deletePath={`/api/programs/${p.id}`}>
+                            {(close) => <ProgramForm departments={departments.data ?? []} initial={p} onDone={close} />}
+                          </RowActions>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -125,15 +138,24 @@ export function OrganizationView() {
 
 type DepartmentInput = z.input<typeof departmentSchema>;
 
-function DepartmentForm({ onDone }: { onDone: () => void }) {
-  const form = useForm<DepartmentInput>({ resolver: zodResolver(departmentSchema), defaultValues: { code: "", name: "" } });
-  const mutation = useApiMutation<DepartmentInput>("/api/departments", { form, success: "Department added.", onSuccess: onDone });
+/** Creates a department, or edits `initial` when given. */
+function DepartmentForm({ initial, onDone }: { initial?: Departments[number]; onDone: () => void }) {
+  const form = useForm<DepartmentInput>({
+    resolver: zodResolver(departmentSchema),
+    defaultValues: { code: initial?.code ?? "", name: initial?.name ?? "" },
+  });
+  const mutation = useApiMutation<DepartmentInput>(initial ? `/api/departments/${initial.id}` : "/api/departments", {
+    method: initial ? "PATCH" : "POST",
+    form,
+    success: initial ? "Department saved." : "Department added.",
+    onSuccess: onDone,
+  });
   return (
     <form onSubmit={form.handleSubmit((v) => mutation.mutate(v))} noValidate>
       <FieldGroup>
         <TextField form={form} name="code" label="Code" placeholder="CS" autoFocus />
         <TextField form={form} name="name" label="Name" placeholder="Computer Science" />
-        <DialogActions onCancel={onDone} pending={mutation.isPending} submitLabel="Add department" />
+        <DialogActions onCancel={onDone} pending={mutation.isPending} submitLabel={initial ? "Save changes" : "Add department"} />
       </FieldGroup>
     </form>
   );
@@ -141,12 +163,22 @@ function DepartmentForm({ onDone }: { onDone: () => void }) {
 
 type ProgramInput = z.input<typeof programSchema>;
 
-function ProgramForm({ departments, onDone }: { departments: Departments; onDone: () => void }) {
+function ProgramForm({ departments, initial, onDone }: { departments: Departments; initial?: Programs[number]; onDone: () => void }) {
   const form = useForm<ProgramInput>({
     resolver: zodResolver(programSchema),
-    defaultValues: { code: "", name: "", departmentId: "", degreeLevel: "bachelor" },
+    defaultValues: {
+      code: initial?.code ?? "",
+      name: initial?.name ?? "",
+      departmentId: initial?.departmentId ?? "",
+      degreeLevel: initial?.degreeLevel ?? "bachelor",
+    },
   });
-  const mutation = useApiMutation<ProgramInput>("/api/programs", { form, success: "Program added.", onSuccess: onDone });
+  const mutation = useApiMutation<ProgramInput>(initial ? `/api/programs/${initial.id}` : "/api/programs", {
+    method: initial ? "PATCH" : "POST",
+    form,
+    success: initial ? "Program saved." : "Program added.",
+    onSuccess: onDone,
+  });
   return (
     <form onSubmit={form.handleSubmit((v) => mutation.mutate(v))} noValidate>
       <FieldGroup>
@@ -166,7 +198,7 @@ function ProgramForm({ departments, onDone }: { departments: Departments; onDone
             ]}
           />
         </div>
-        <DialogActions onCancel={onDone} pending={mutation.isPending} submitLabel="Add program" />
+        <DialogActions onCancel={onDone} pending={mutation.isPending} submitLabel={initial ? "Save changes" : "Add program"} />
       </FieldGroup>
     </form>
   );

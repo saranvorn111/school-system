@@ -19,6 +19,8 @@ import type { gradesSaveSchema } from "@/lib/validation/sections";
  *   draft ──submit──▶ submitted ──approve──▶ approved ──publish──▶ published
  *     ▲                   │                     │
  *     └──────reject───────┴─────────────────────┘
+ *     ▲
+ *     └──────reopen (correction, needs a reason)──────────────────── published
  *
  * Teachers can only edit in `draft`. Students only see `published` grades.
  */
@@ -181,6 +183,29 @@ export async function publishGrades(user: CurrentUser, sectionId: number) {
   await notify(await userIdsEnrolledIn(sectionId), {
     type: "grade.published",
     title: `Your grade is published: ${await sectionLabel(sectionId)}`,
+    href: "/student/grades",
+  });
+  return result;
+}
+
+/**
+ * Correction path for published grades: back to draft so the teacher can fix a
+ * score. Students stop seeing the grade until it is published again. A reason
+ * is required and recorded in the audit log.
+ */
+export async function reopenGrades(user: CurrentUser, sectionId: number, note?: string) {
+  const result = await transition(user, sectionId, "grade:publish", ["published"], "draft", "grade.reopened", note);
+  const [section, label] = await Promise.all([getSectionDetail(sectionId), sectionLabel(sectionId)]);
+  await notify(await userIdOfTeacher(section?.teacherId ?? null), {
+    type: "grade.reopened",
+    title: `Grades reopened for correction: ${label}`,
+    body: note,
+    href: `/teacher/sections/${sectionId}/grades`,
+  });
+  await notify(await userIdsEnrolledIn(sectionId), {
+    type: "grade.reopened",
+    title: `Your grade for ${label} is being corrected`,
+    body: "It will appear again once it is republished.",
     href: "/student/grades",
   });
   return result;

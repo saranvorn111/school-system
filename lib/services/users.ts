@@ -1,7 +1,7 @@
 import "server-only";
 import { and, asc, desc, eq, exists, inArray, like, or, sql } from "drizzle-orm";
 import type * as z from "zod";
-import { db, isDuplicateKeyError } from "@/db";
+import { db, escapeLike, isDuplicateKeyError } from "@/db";
 import { auditLogs, departments, loginHistory, programs, roles, students, teachers, userRoles, users } from "@/db/schema";
 import { conflict, notFound } from "@/lib/api/errors";
 import { audit } from "@/lib/audit";
@@ -16,6 +16,7 @@ const PAGE_SIZE = 25;
 export async function listUsers(user: CurrentUser, query: z.infer<typeof userListQuery>) {
   await authorize(user, "user:read", { global: true });
   const { q, role, page } = query;
+  const pattern = `%${escapeLike(q ?? "")}%`;
 
   const hasRole = (code: string) =>
     exists(
@@ -39,7 +40,7 @@ export async function listUsers(user: CurrentUser, query: z.infer<typeof userLis
     .from(users)
     .where(
       and(
-        q ? or(like(users.fullName, `%${q}%`), like(users.email, `%${q}%`), like(users.username, `%${q}%`)) : undefined,
+        q ? or(like(users.fullName, pattern), like(users.email, pattern), like(users.username, pattern)) : undefined,
         role ? hasRole(role) : undefined,
       ),
     )
