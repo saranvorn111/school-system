@@ -4,6 +4,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Text sizes. The component library defaults are compact (14px body, 12px small).
+   Raising the two tokens here makes every table, menu, form and badge easier to
+   read at once. To go bigger or smaller, change these two values. */
+@theme {
+  --text-xs: 0.8125rem; /* 13px (was 12px): table headers, hints, badges */
+  --text-xs--line-height: calc(1.2 / 0.8125);
+  --text-sm: 0.9375rem; /* 15px (was 14px): tables, sidebar, forms, buttons */
+  --text-sm--line-height: calc(1.4 / 0.9375);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -126,5 +136,43 @@
   }
   html {
     @apply font-sans;
+  }
+}
+/* ── Landing page hover effects ─────────────────────────────── */
+@layer components {
+  /* Menu link with an underline that grows from the left on hover. */
+  .landing-link {
+    @apply relative text-muted-foreground transition-colors hover:text-foreground;
+  }
+  .landing-link::after {
+    content: "";
+    @apply absolute -bottom-1.5 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full bg-primary transition-transform duration-300;
+  }
+  .landing-link:hover::after,
+  .landing-link:focus-visible::after {
+    @apply scale-x-100;
+  }
+
+  /* Card that lifts, glows at the border and gains a shadow on hover. */
+  .hover-lift {
+    @apply transition duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10;
+  }
+}
+
+/* Clicking a menu link glides to its section instead of jumping. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* People who ask their device for less motion get instant changes instead. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-labelledby="t">
+  <title id="t">A school on a hill at sunrise with students walking towards it</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="0.45" stop-color="#4f46e5"/>
+      <stop offset="0.8" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#fdba74"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fef3c7" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#fcd34d" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fcd34d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="path" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fde68a"/>
+      <stop offset="1" stop-color="#c7d2fe"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#sky)"/>
+
+  <!-- stars -->
+  <g fill="#fff">
+    <circle cx="70" cy="50" r="1.6" opacity="0.9"/>
+    <circle cx="150" cy="95" r="1.2" opacity="0.7"/>
+    <circle cx="235" cy="40" r="1.8" opacity="0.8"/>
+    <circle cx="330" cy="75" r="1.2" opacity="0.6"/>
+    <circle cx="520" cy="45" r="1.6" opacity="0.8"/>
+    <circle cx="610" cy="90" r="1.2" opacity="0.7"/>
+    <circle cx="700" cy="55" r="1.8" opacity="0.9"/>
+    <circle cx="755" cy="120" r="1.2" opacity="0.6"/>
+    <circle cx="40" cy="140" r="1.2" opacity="0.5"/>
+  </g>
+
+  <!-- rising sun behind the hill -->
+  <circle cx="400" cy="270" r="190" fill="url(#glow)"/>
+  <circle cx="400" cy="270" r="62" fill="#fef3c7"/>
+
+  <!-- birds -->
+  <g fill="none" stroke="#e0e7ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <path d="M150 165 q9 -9 18 0 q9 -9 18 0"/>
+    <path d="M205 135 q7 -7 14 0 q7 -7 14 0"/>
+    <path d="M600 150 q9 -9 18 0 q9 -9 18 0"/>
+  </g>
+
+  <!-- far hills -->
+  <path d="M0 330 C120 270 220 300 330 285 C450 268 560 300 660 280 C720 268 770 285 800 295 L800 450 L0 450 Z" fill="#4338ca" opacity="0.75"/>
+
+  <!-- school hill -->
+  <path d="M0 390 C150 330 290 318 400 318 C510 318 650 330 800 390 L800 450 L0 450 Z" fill="#312e81"/>
+
+  <!-- school building -->
+  <g>
+    <!-- flag -->
+    <rect x="398" y="186" width="3" height="42" fill="#e0e7ff"/>
+    <path d="M401 188 L428 196 L401 205 Z" fill="#fbbf24"/>
+    <!-- roof -->
+    <path d="M318 262 L400 226 L482 262 Z" fill="#eef2ff"/>
+    <circle cx="400" cy="249" r="7" fill="#6366f1"/>
+    <!-- body -->
+    <rect x="326" y="262" width="148" height="62" fill="#e0e7ff"/>
+    <rect x="318" y="258" width="164" height="8" rx="2" fill="#c7d2fe"/>
+    <!-- wings -->
+    <rect x="262" y="284" width="64" height="40" fill="#c7d2fe"/>
+    <rect x="474" y="284" width="64" height="40" fill="#c7d2fe"/>
+    <rect x="256" y="279" width="76" height="7" rx="2" fill="#a5b4fc"/>
+    <rect x="468" y="279" width="76" height="7" rx="2" fill="#a5b4fc"/>
+    <!-- columns -->
+    <g fill="#f8fafc">
+      <rect x="340" y="268" width="9" height="56"/>
+      <rect x="366" y="268" width="9" height="56"/>
+      <rect x="425" y="268" width="9" height="56"/>
+      <rect x="451" y="268" width="9" height="56"/>
+    </g>
+    <!-- door -->
+    <path d="M388 324 L388 296 a12 12 0 0 1 24 0 L412 324 Z" fill="#4338ca"/>
+    <!-- lit windows -->
+    <g fill="#fde68a">
+      <rect x="274" y="294" width="14" height="16" rx="2"/>
+      <rect x="298" y="294" width="14" height="16" rx="2"/>
+      <rect x="488" y="294" width="14" height="16" rx="2"/>
+      <rect x="512" y="294" width="14" height="16" rx="2"/>
+    </g>
+    <!-- steps -->
+    <rect x="372" y="322" width="56" height="5" rx="1" fill="#a5b4fc"/>
+    <rect x="364" y="327" width="72" height="5" rx="1" fill="#818cf8"/>
+  </g>
+
+  <!-- path leading to the door -->
+  <path d="M385 332 C375 362 330 380 300 410 C285 425 270 440 262 450 L470 450 C452 430 438 405 428 380 C420 360 416 345 415 332 Z" fill="url(#path)" opacity="0.55"/>
+
+  <!-- trees -->
+  <g>
+    <rect x="196" y="318" width="6" height="22" fill="#1e1b4b"/>
+    <circle cx="199" cy="306" r="20" fill="#3730a3"/>
+    <rect x="596" y="318" width="6" height="22" fill="#1e1b4b"/>
+    <circle cx="599" cy="306" r="20" fill="#3730a3"/>
+    <rect x="640" y="332" width="5" height="18" fill="#1e1b4b"/>
+    <circle cx="642" cy="322" r="15" fill="#3730a3"/>
+  </g>
+
+  <!-- students walking up the path -->
+  <g>
+    <g transform="translate(322 392)">
+      <circle cx="0" cy="-26" r="9" fill="#fde68a"/>
+      <path d="M-10 6 L-8 -14 a8 8 0 0 1 16 0 L10 6 Z" fill="#fbbf24"/>
+      <rect x="4" y="-12" width="9" height="13" rx="2" fill="#f59e0b"/>
+    </g>
+    <g transform="translate(372 372) scale(0.85)">
+      <circle cx="0" cy="-26" r="9" fill="#fde68a"/>
+      <path d="M-10 6 L-8 -14 a8 8 0 0 1 16 0 L10 6 Z" fill="#f8fafc"/>
+      <rect x="4" y="-12" width="9" height="13" rx="2" fill="#c7d2fe"/>
+    </g>
+    <g transform="translate(410 356) scale(0.7)">
+      <circle cx="0" cy="-26" r="9" fill="#fde68a"/>
+      <path d="M-10 6 L-8 -14 a8 8 0 0 1 16 0 L10 6 Z" fill="#a5b4fc"/>
+      <rect x="4" y="-12" width="9" height="13" rx="2" fill="#6366f1"/>
+    </g>
+  </g>
+</svg>

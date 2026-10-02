@@ -140,6 +140,7 @@
   },
   "landing": {
     "nav": {
+      "about": "About",
       "features": "Features",
       "portals": "Portals",
       "workflow": "How it works",
@@ -216,6 +217,42 @@
         "item4": "Notifications for what matters"
       }
     },
+    "about": {
+      "eyebrow": "About",
+      "title": "Why we built it",
+      "subtitle": "A clear purpose guides every screen and every rule in the system.",
+      "vision": {
+        "label": "Our vision",
+        "imageAlt": "Illustration of a school on a hill at sunrise, with students walking towards it",
+        "title": "Every school run with clarity and trust",
+        "text": "A future where every school, large or small, runs on accurate and transparent information, so teachers can focus on teaching and students on learning."
+      },
+      "mission": {
+        "label": "Our mission",
+        "imageAlt": "Illustration of a school dashboard with attendance and grades beside a target hit in the centre",
+        "title": "Simple, secure tools for daily school work",
+        "text": "To give administrators, teachers and students one simple, secure place for classes, attendance and grades, in their own language, with every important action checked and recorded."
+      },
+      "values": {
+        "title": "What we stand for",
+        "transparency": {
+          "title": "Transparency",
+          "text": "Grades follow a visible review path and every change is recorded."
+        },
+        "security": {
+          "title": "Privacy and security",
+          "text": "People see only what their role allows, and nothing more."
+        },
+        "simplicity": {
+          "title": "Simplicity",
+          "text": "Common tasks take a few clicks, on a computer or a phone."
+        },
+        "inclusion": {
+          "title": "Built for Cambodia",
+          "text": "Khmer and English from the start, so everyone can use it comfortably."
+        }
+      }
+    },
     "workflow": {
       "eyebrow": "How it works",
       "title": "Grades are reviewed before students see them",
@@ -246,13 +283,63 @@
         "text": "A REST API behind every screen, ready for a mobile app or other systems."
       }
     },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Frequently asked questions",
+      "subtitle": "Quick answers for students, teachers and staff.",
+      "q1": {
+        "q": "How do I get an account?",
+        "a": "Your school administrator creates it for you. You receive a username (your student or employee ID) and a temporary password, which you change the first time you log in."
+      },
+      "q2": {
+        "q": "I forgot my password. What should I do?",
+        "a": "Ask your administrator to reset it. You will get a new temporary password and be asked to choose your own at the next login."
+      },
+      "q3": {
+        "q": "Why is my account locked?",
+        "a": "After 5 wrong passwords the account locks for 15 minutes to keep it safe. Wait, or ask your administrator to unlock it."
+      },
+      "q4": {
+        "q": "When can students see their grades?",
+        "a": "Only after the teacher submits them and an administrator approves and publishes them. Until then, grades are not visible to students."
+      },
+      "q5": {
+        "q": "Which languages are available?",
+        "a": "English and Khmer. Use the language button at the top of any page. Menus and page titles are in Khmer today, and more is being translated."
+      },
+      "q6": {
+        "q": "Can I use it on my phone?",
+        "a": "Yes. It runs in the web browser on a phone, tablet or computer. There is nothing to install."
+      }
+    },
     "cta": {
       "title": "Ready to get started?",
       "subtitle": "Log in with the account your administrator gave you.",
-      "button": "Log in"
+      "button": "Log in",
+      "stepsTitle": "Three steps to your dashboard",
+      "step1": {
+        "title": "Get your account",
+        "text": "Your administrator gives you a username and a temporary password."
+      },
+      "step2": {
+        "title": "Log in",
+        "text": "Use your email, student ID or employee ID."
+      },
+      "step3": {
+        "title": "Set your own password",
+        "text": "Choose a new password, and you are ready to work."
+      }
     },
     "footer": {
       "tagline": "University and school management system.",
+      "description": "One secure place for students, teachers, classes, attendance and grades.",
+      "explore": "Explore",
+      "portals": "Portals",
+      "help": "Help",
+      "faq": "Frequently asked questions",
+      "account": "My account",
+      "preferences": "Language and theme",
+      "backToTop": "Back to top",
       "rights": "All rights reserved."
     }
   }
