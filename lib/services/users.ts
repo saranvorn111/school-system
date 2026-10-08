@@ -3,12 +3,14 @@ import { and, asc, desc, eq, exists, inArray, like, or, sql } from "drizzle-orm"
 import type * as z from "zod";
 import { db, escapeLike, isDuplicateKeyError } from "@/db";
 import { auditLogs, departments, loginHistory, programs, roles, students, teachers, userRoles, users } from "@/db/schema";
-import { conflict, notFound } from "@/lib/api/errors";
+import { ApiError, conflict, notFound } from "@/lib/api/errors";
 import { audit } from "@/lib/audit";
 import { authorize } from "@/lib/auth/authz";
 import type { CurrentUser } from "@/lib/auth/current-user";
 import { generateTempPassword, hashPassword } from "@/lib/auth/password";
 import { revokeUserSessions } from "@/lib/auth/session";
+import { schoolToday } from "@/lib/format";
+import { ID_PREFIX, nextLoginId, type AutoIdRole } from "@/lib/login-id";
 import type { createUserSchema, updateUserSchema, userListQuery } from "@/lib/validation/users";
 
 const PAGE_SIZE = 25;
@@ -137,10 +139,43 @@ export async function getUser(user: CurrentUser, id: number) {
 
 export async function createUser(actor: CurrentUser, data: z.infer<typeof createUserSchema>) {
   await authorize(actor, "user:create", { global: true });
-  const username = data.role === "ADMIN" ? data.username : data.role === "TEACHER" ? data.employeeId : data.studentCode;
   const tempPassword = generateTempPassword();
   const passwordHash = await hashPassword(tempPassword);
 
+  // Checked up front so that, below, a duplicate-key error on an automatic ID
+  // can only mean "another admin just took that number".
+  const [emailTaken] = await db.select({ id: users.id }).from(users).where(eq(users.email, data.email));
+  if (emailTaken) throw conflict("That email is already in use.");
+
+  const typedId = data.role === "ADMIN" ? data.username : data.role === "TEACHER" ? data.employeeId : data.studentCode;
+  if (typedId) return { ...(await insertUser(actor, data, typedId, passwordHash)), tempPassword };
+
+  // No ID typed: generate S/T + year + next number. If two admins create users at
+  // the same moment they may compute the same number; the unique index rejects the
+  // second one and we simply try again with the next number.
+  if (data.role === "ADMIN") throw conflict("Enter a username.");
+  const year = data.role === "STUDENT" ? data.admissionYear : Number(schoolToday().date.slice(0, 4));
+  for (let attempt = 1; ; attempt++) {
+    const username = await generateLoginId(data.role, year);
+    try {
+      return { ...(await insertUser(actor, data, username, passwordHash)), tempPassword };
+    } catch (e) {
+      if (!(e instanceof ApiError && e.status === 409) || attempt >= 5) throw e;
+    }
+  }
+}
+
+/** Next free ID in the series for this role and year, e.g. S2026006 after S2026005. */
+async function generateLoginId(role: AutoIdRole, year: number) {
+  const taken = await db
+    .select({ username: users.username })
+    .from(users)
+    .where(like(users.username, `${ID_PREFIX[role]}${year}%`));
+  return nextLoginId(role, year, taken.map((u) => u.username));
+}
+
+/** Inserts the account, its role and its teacher/student profile in one transaction. */
+async function insertUser(actor: CurrentUser, data: z.infer<typeof createUserSchema>, username: string, passwordHash: string) {
   const userId = await db.transaction(async (tx) => {
     const [{ id }] = await tx
       .insert(users)
@@ -153,7 +188,7 @@ export async function createUser(actor: CurrentUser, data: z.infer<typeof create
     if (data.role === "TEACHER") {
       await tx.insert(teachers).values({
         userId: id,
-        employeeId: data.employeeId,
+        employeeId: username,
         departmentId: data.departmentId,
         title: data.title,
         phone: data.phone,
@@ -161,7 +196,7 @@ export async function createUser(actor: CurrentUser, data: z.infer<typeof create
     } else if (data.role === "STUDENT") {
       await tx.insert(students).values({
         userId: id,
-        studentCode: data.studentCode,
+        studentCode: username,
         programId: data.programId,
         admissionYear: data.admissionYear,
         gender: data.gender,
@@ -176,12 +211,12 @@ export async function createUser(actor: CurrentUser, data: z.infer<typeof create
     );
     return id;
   }).catch((e) => {
-    if (isDuplicateKeyError(e)) throw conflict("That email, username or ID is already in use.");
+    if (isDuplicateKeyError(e)) throw conflict("That username or ID is already in use.");
     throw e;
   });
 
-  // The temporary password is returned once so the admin can hand it over; it is never stored in plain text.
-  return { id: userId, username, tempPassword };
+  // The caller adds the temporary password, shown once so the admin can hand it over; it is never stored in plain text.
+  return { id: userId, username };
 }
 
 async function loadUser(id: number) {

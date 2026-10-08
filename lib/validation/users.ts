@@ -6,7 +6,11 @@ const base = {
   fullName: z.string().trim().min(2, "Enter the full name.").max(150),
   email: z.email("Enter a valid email.").transform((e) => e.toLowerCase()),
 };
-const loginId = z.string().trim().regex(/^[A-Za-z0-9-]{2,32}$/, "Letters, numbers and dashes only.");
+// Optional: when left empty the server generates the next ID (see lib/login-id.ts).
+const loginId = z.preprocess(
+  (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+  z.string().trim().regex(/^[A-Za-z0-9-]{2,32}$/, "Letters, numbers and dashes only.").optional(),
+);
 
 export const createUserSchema = z.discriminatedUnion("role", [
   z.object({

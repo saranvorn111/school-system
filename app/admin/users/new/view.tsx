@@ -106,7 +106,13 @@ export function NewUserView() {
 
             {role === "TEACHER" && (
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                <TextField form={form} name="employeeId" label="Employee ID" description="Also their login username." />
+                <TextField
+                  form={form}
+                  name="employeeId"
+                  label="Employee ID (optional)"
+                  placeholder="Automatic"
+                  description="Leave empty to generate it: T + year + number, e.g. T2026001. It is also the login username."
+                />
                 <SelectField
                   form={form}
                   name="departmentId"
@@ -121,7 +127,13 @@ export function NewUserView() {
 
             {role === "STUDENT" && (
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                <TextField form={form} name="studentCode" label="Student ID" description="Also their login username." />
+                <TextField
+                  form={form}
+                  name="studentCode"
+                  label="Student ID (optional)"
+                  placeholder="Automatic"
+                  description="Leave empty to generate it: S + admission year + number, e.g. S2026006. It is also the login username."
+                />
                 <SelectField
                   form={form}
                   name="programId"

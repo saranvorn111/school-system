@@ -687,3 +687,15 @@ Published grades are locked. If a score is wrong, the admin reopens them:
 The button is disabled until a reason is typed. A teacher calling the API directly gets 403, and the action is recorded in the audit log as `grade.reopened` with the reason.
 
 **Files:** `lib/services/grades.ts` → `reopenGrades()`, `components/grade-review.tsx`, `app/api/sections/[id]/grades/[action]/route.ts`.
+
+## Test Q — Automatic student and teacher IDs
+
+1. As admin, open **Users → New user → Student**. Leave **Student ID** empty, fill in name, email and admission year 2026, and create.
+   **Expected:** the green box shows a generated ID such as `S2026006` (one more than the highest existing 2026 student).
+2. Create another student with admission year 2027. **Expected:** `S2027001`. The number restarts each year.
+3. Create a teacher with **Employee ID** empty. **Expected:** `T` + this year + number, e.g. `T2026001`.
+4. Type your own ID (for example `OLD-778`). **Expected:** that ID is used as written.
+5. Type an ID that already exists. **Expected:** "That username or ID is already in use."
+6. Existing accounts (`T0001`, `S2026001`…) keep their IDs; only new accounts use the generator.
+
+**Files:** `lib/login-id.ts` (the format and "next number" rule), `lib/services/users.ts` → `createUser()` and `generateLoginId()`, `app/admin/users/new/view.tsx`.

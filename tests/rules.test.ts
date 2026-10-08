@@ -107,3 +107,22 @@ describe("search", () => {
     expect(escapeLike(String.raw`a\b`)).toBe(String.raw`a\\b`);
   });
 });
+
+describe("automatic login IDs", () => {
+  test("format is letter + year + at least three digits", async () => {
+    const { formatLoginId } = await import("@/lib/login-id");
+    expect(formatLoginId("STUDENT", 2026, 1)).toBe("S2026001");
+    expect(formatLoginId("TEACHER", 2026, 42)).toBe("T2026042");
+    expect(formatLoginId("STUDENT", 2026, 1000)).toBe("S20261000");
+  });
+
+  test("continues after the highest existing number and ignores other formats", async () => {
+    const { nextLoginId } = await import("@/lib/login-id");
+    expect(nextLoginId("STUDENT", 2026, [])).toBe("S2026001");
+    expect(nextLoginId("STUDENT", 2026, ["S2026001", "S2026005", "S2026003"])).toBe("S2026006");
+    // old-style and custom IDs, other years and other roles do not affect the counter
+    expect(nextLoginId("STUDENT", 2026, ["st2", "S2025009", "T2026004", "S2026-x"])).toBe("S2026001");
+    expect(nextLoginId("TEACHER", 2026, ["T0001", "T0002", "cost"])).toBe("T2026001");
+    expect(nextLoginId("STUDENT", 2026, ["S2026999"])).toBe("S20261000");
+  });
+});
