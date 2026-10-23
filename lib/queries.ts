@@ -43,8 +43,6 @@ export async function listTerms() {
     .orderBy(desc(terms.startDate));
 }
 
-export const termLabel = (t: { yearName: string; name: string }) => `${t.yearName} · ${t.name}`;
-
 const teacherUser = alias(users, "teacher_user");
 
 /** Sections with course, term, teacher and enrollment count. */

@@ -16,7 +16,7 @@ export const createUserSchema = z.discriminatedUnion("role", [
   z.object({
     role: z.literal("ADMIN"),
     ...base,
-    username: z.string().trim().regex(/^[A-Za-z0-9._-]{3,64}$/, "3–64 letters, numbers, dot, dash or underscore."),
+    username: z.string().trim().regex(/^[A-Za-z0-9._-]{3,64}$/, "3-64 letters, numbers, dot, dash or underscore."),
   }),
   z.object({
     role: z.literal("TEACHER"),

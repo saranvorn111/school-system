@@ -10,7 +10,7 @@ export const sectionSchema = z
     sectionCode: z
       .string()
       .trim()
-      .regex(/^[A-Za-z0-9]{1,10}$/, "1–10 letters or numbers.")
+      .regex(/^[A-Za-z0-9]{1,10}$/, "1-10 letters or numbers.")
       .transform((s) => s.toUpperCase()),
     teacherId: optionalId,
     room: optionalText(32),
@@ -46,7 +46,7 @@ export const gradesSaveSchema = z.object({
   scores: z.array(
     z.object({
       enrollmentId: z.number().int().positive(),
-      score: z.number().min(0, "0–100").max(100, "0–100").nullable(),
+      score: z.number().min(0, "0-100").max(100, "0-100").nullable(),
     }),
   ),
 });

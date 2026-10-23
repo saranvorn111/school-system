@@ -11,7 +11,6 @@ export const attendanceStatuses = ["present", "late", "absent", "excused"] as co
 export type AttendanceStatus = (typeof attendanceStatuses)[number];
 
 export const userStatuses = ["active", "suspended", "disabled"] as const;
-export type UserStatus = (typeof userStatuses)[number];
 
 export const studentStatuses = ["active", "suspended", "graduated", "withdrawn"] as const;
 export const genders = ["male", "female", "other"] as const;

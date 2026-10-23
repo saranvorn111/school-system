@@ -21,7 +21,7 @@ The admin login comes from `.env` (`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`). 
 | `bun run db:generate` | Create a migration after editing `db/schema.ts` |
 | `bun run db:migrate` | Apply migrations |
 | `bun run db:studio` | Browse the database |
-| `bun test` | Unit tests (grading, schedule clashes, permission matrix, hashing) |
+| `bun test` | Unit tests (grading, schedule clashes, permission matrix, hashing, translations, ID numbering) |
 | `bun run typecheck` / `bun run lint` | Static checks |
 
 ## How the code is organized

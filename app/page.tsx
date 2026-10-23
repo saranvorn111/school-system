@@ -360,41 +360,41 @@ export default async function LandingPage() {
               {/* thin highlight where the band meets the next section */}
               <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             </div>
-          <div className="mx-auto grid max-w-[96rem] items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
-            <div>
-              {/* <span className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs">
-                <span className="size-1.5 rounded-full bg-emerald-500" />
-                {t("landing.hero.badge")}
-              </span> */}
-              <h1 className="mt-6 text-4xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                {t("landing.hero.title")}
-              </h1>
-              <p className="mt-6 max-w-xl text-lg text-pretty text-indigo-100/90">
-                {t("landing.hero.subtitle")}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-11 bg-white px-5 text-base text-indigo-700 shadow-lg shadow-indigo-950/30 hover:bg-indigo-50"
-                >
-                  <Link href={appHref}>
-                    {user ? appLabel : t("landing.hero.cta")}
-                    <ArrowRightIcon className="transition-transform duration-200 group-hover/button:translate-x-1" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-11 border-white/30 bg-white/5 px-5 text-base text-white backdrop-blur hover:bg-white/15 hover:text-white dark:border-white/30 dark:bg-white/5 dark:hover:bg-white/15"
-                >
-                  <a href="#features">{t("landing.hero.secondary")}</a>
-                </Button>
+            <div className="mx-auto grid max-w-[96rem] items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
+              <div>
+                {/* <span className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs">
+                  <span className="size-1.5 rounded-full bg-emerald-500" />
+                  {t("landing.hero.badge")}
+                </span> */}
+                <h1 className="mt-6 text-4xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                  {t("landing.hero.title")}
+                </h1>
+                <p className="mt-6 max-w-xl text-lg text-pretty text-indigo-100/90">
+                  {t("landing.hero.subtitle")}
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="h-11 bg-white px-5 text-base text-indigo-700 shadow-lg shadow-indigo-950/30 hover:bg-indigo-50"
+                  >
+                    <Link href={appHref}>
+                      {user ? appLabel : t("landing.hero.cta")}
+                      <ArrowRightIcon className="transition-transform duration-200 group-hover/button:translate-x-1" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="h-11 border-white/30 bg-white/5 px-5 text-base text-white backdrop-blur hover:bg-white/15 hover:text-white dark:border-white/30 dark:bg-white/5 dark:hover:bg-white/15"
+                  >
+                    <a href="#features">{t("landing.hero.secondary")}</a>
+                  </Button>
+                </div>
               </div>
+              <DashboardPreview label={t("landing.hero.preview")} />
             </div>
-            <DashboardPreview label={t("landing.hero.preview")} />
-          </div>
           </div>
 
           {/* Facts about the system (real numbers, not marketing claims) */}

@@ -233,16 +233,16 @@ Open **Departments & programs**.
 2. Add it again with the same code.
 
 **Expected:** error toast "A department with that code already exists." (HTTP 409).
-3. Add a program with a code like `BAENG` in the English department.
+3. Click **Add program** and add one with a code like `BAENG` in the English department.
 4. Try a code with a space, e.g. `BA ENG`. **Expected:** field error "2–20 letters, numbers or dashes."
 
 **Files:** `app/admin/organization/view.tsx`, `lib/validation/academics.ts`, `lib/services/academics.ts`.
 
 ### C3. Academic years and terms
 Open **Years & terms**.
-1. Add year `2027-2028` with start 2027-09-01 and end 2028-08-31.
+1. Click **Add year** and add `2027-2028` with start 2027-09-01 and end 2028-08-31.
 2. Try a year named `2027` → field error "Use the format 2026-2027."
-3. Add a term whose end date is **before** its start date → field error "End date must be after the start date."
+3. Click **Add term** and add one whose end date is **before** its start date → field error "End date must be after the start date."
 4. Add a valid term "Semester 1" for 2027-2028, then click **Make current**.
 
 **Expected:** the green **Current** badge moves to that term. Switch it back to 2026-2027 Semester 1 before continuing, because the other tests use it.
@@ -250,7 +250,7 @@ Open **Years & terms**.
 **Files:** `app/admin/academics/view.tsx`, `lib/services/academics.ts` → `setCurrentTerm()` (runs in a transaction so only one term is ever current).
 
 ### C4. Courses
-Open **Courses**. Add `CS201` "Data Structures", 3 credits.
+Open **Courses**. Click **New course** and add `CS201` "Data Structures", 3 credits.
 
 Try credits `20` → field error "0–12".
 
@@ -259,11 +259,11 @@ Try credits `20` → field error "0–12".
 ### C5. Users
 Open **Users**.
 1. Search "Sok". Only Sok Dara appears. Change the role filter to **Student**; only students appear. The filters are stored in the URL, so you can bookmark them.
-2. Click **New user** → **Student**. Fill in name, email and a student ID like `S2026100`, then create.
+2. Click **New user** → **Student**. Fill in name and email, leave **Student ID** empty (it is generated, see Test Q), then create.
 
 **Expected:** a green box shows the username and a **temporary password** (shown only once).
 3. Create another user with the **same email or ID** → toast "That email, username or ID is already in use."
-4. Switch to **Teacher** and create a teacher (employee ID e.g. `T0003`). The form fields change with the role.
+4. Switch to **Teacher** and create a teacher, leaving **Employee ID** empty. The form fields change with the role.
 5. Open a user → try **Reset password** (confirm dialog, new temporary password shown), **Disable account** (the user can no longer log in and is signed out everywhere), then **Enable account**.
 6. Open **your own** admin account. The **Disable** button is not shown, and the API also refuses (`409`) if you try.
 
@@ -512,11 +512,11 @@ bun run lint
 
 | Command | Checks | File |
 | --- | --- | --- |
-| `bun test` | 10 unit tests: grade boundaries, invalid scores, GPA, timetable overlaps, time ranges, permission matrix (teachers/students can't approve grades or manage users), password hashing | `tests/rules.test.ts` |
+| `bun test` | 15 unit tests: grading and GPA, timetable overlaps, the permission matrix, password hashing, translation files (same keys in English and Khmer), search escaping, and automatic ID numbering | `tests/rules.test.ts` |
 | `bun run typecheck` | TypeScript across the whole app, including the API response types used by pages (`ApiData<>` in `lib/api/client.ts`) | `tsconfig.json` |
 | `bun run lint` | ESLint rules for Next.js and React | `eslint.config.mjs` |
 
-Expected: `10 pass, 0 fail`, and no output from the type check or lint.
+Expected: `15 pass, 0 fail`, and no output from the type check or lint.
 
 ---
 
@@ -545,7 +545,7 @@ Expected: `10 pass, 0 fail`, and no output from the type check or lint.
 | `lib/api/handler.ts` | `route()` / `publicRoute()` wrappers: login check, CSRF check, JSON errors, `readBody()`, `readQuery()`, `idParam()` |
 | `lib/api/errors.ts` | `ApiError` and helpers: `forbidden()`, `conflict()`, `invalid()`… |
 | `lib/api/client.ts` | Browser `api()` fetch helper; redirects to login on 401 |
-| `app/api/**/route.ts` | One file per endpoint (35 files) |
+| `app/api/**/route.ts` | One file per endpoint (44 files) |
 
 ### Business logic — `lib/services/`
 | File | Covers |
@@ -615,6 +615,12 @@ Expected: `10 pass, 0 fail`, and no output from the type check or lint.
 - [ ] I Audit log shows every sensitive action
 - [ ] J API responds with the right status codes
 - [ ] K `bun test`, `bun run typecheck`, `bun run lint` all pass
+- [ ] L Notifications reach the right people
+- [ ] M Reports and CSV export
+- [ ] N Language switch and light/dark theme
+- [ ] O Edit and delete setup data (refused while in use)
+- [ ] P Reopen published grades
+- [ ] Q Automatic student and teacher IDs
 
 ---
 
